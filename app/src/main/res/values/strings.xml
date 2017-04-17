@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">PhotoFeed</string>
+    <string name="text_signin">Bejelentkezés</string>
+    <string name="text_nothave_acc_then_register">Még nincs fiókja? Regisztráljon!</string>
+    <string name="text_register">Regisztrálás</string>
+    <string name="text_username">Username</string>
+    <string name="text_password">Password</string>
+    <string name="text_already_have_acc_sign_in">Van már fiókja? Jelentkezzen be!</string>
+    <string name="text_type_username">Írja be a felhasználónevét!</string>
+    <string name="text_type_password">Írja be a jelszavát!</string>
+    <string name="text_registration_inprogress">Regisztrálás folyamatban...</string>
+    <string name="text_signin_inprogress">Bejelentkezés folyamatban...</string>
+
+    <string name="text_signout">Kijelentkezés</string>
+    <string name="text_error_when_login">Hiba bejelentkezés közben!</string>
+</resources>
