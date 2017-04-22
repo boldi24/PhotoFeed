@@ -13,4 +13,5 @@
 
     <string name="text_signout">Kijelentkezés</string>
     <string name="text_error_when_login">Hiba bejelentkezés közben!</string>
+    <string name="text_photo_upload_progress">Kép feltölése folyamatban...</string>
 </resources>

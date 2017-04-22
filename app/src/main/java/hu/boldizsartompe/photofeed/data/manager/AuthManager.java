@@ -10,4 +10,8 @@ public interface AuthManager {
 
     void signOut();
 
+    String getUsername();
+
+    String getUserId();
+
 }

@@ -71,4 +71,14 @@ public class AuthManagerImpl implements AuthManager {
     public void signOut() {
         mAuth.signOut();
     }
+
+    @Override
+    public String getUsername() {
+        return mAuth.getCurrentUser().getEmail().split("@")[0];
+    }
+
+    @Override
+    public String getUserId() {
+        return mAuth.getCurrentUser().getUid();
+    }
 }
