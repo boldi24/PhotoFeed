@@ -1,7 +1,10 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/margin_vertical"
+    android:layout_marginLeft="@dimen/margin_horizontal"
+    android:layout_marginRight="@dimen/margin_horizontal"
     tools:context="hu.boldizsartompe.photofeed.presenter.view.screens.main.myfeed.MyFeedFragment">
 
     <TextView
@@ -9,4 +12,18 @@
         android:layout_height="match_parent"
         android:text="myfeed" />
 
-</FrameLayout>
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/srf_escorter_newescort"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_escorter_newescort"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</LinearLayout>

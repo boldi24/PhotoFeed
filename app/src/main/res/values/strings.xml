@@ -14,4 +14,20 @@
     <string name="text_signout">Kijelentkezés</string>
     <string name="text_error_when_login">Hiba bejelentkezés közben!</string>
     <string name="text_photo_upload_progress">Kép feltölése folyamatban...</string>
+    <string name="text_photo_upload_complete">Kép felöltése sikerült!</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="my_friends">Barátaim</string>
+    <string name="find_friend">Barát keresése</string>
+    <string name="find">Keresés</string>
+    <string name="delete">Törlés</string>
+    <string name="text_there_is_no_username">Nincs ilyen felhasználó!</string>
+    <string name="text_searching_friend">Barát keresése...</string>
+    <string name="explanation_camera_permission">Engedély szükséges a kamerához!</string>
+    <string name="exit">Mégsem</string>
+    <string name="forward">Engedélyezés</string>
+    <string name="dialogtitle_permission">Engedélykérés</string>
+    <string name="text_photo_upload_error">Kép feltöltése sikertelen!</string>
+    <string name="text_photo_upload_inprogress">Kép feltöltése folyamatban...</string>
 </resources>

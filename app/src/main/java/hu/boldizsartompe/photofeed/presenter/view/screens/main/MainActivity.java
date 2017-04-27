@@ -2,6 +2,7 @@ package hu.boldizsartompe.photofeed.presenter.view.screens.main;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import hu.boldizsartompe.photofeed.R;
 import hu.boldizsartompe.photofeed.presenter.view.BaseActivity;
 import hu.boldizsartompe.photofeed.presenter.view.presenter.IPresenter;
 import hu.boldizsartompe.photofeed.presenter.view.presenter.main.MainPresenter;
+import hu.boldizsartompe.photofeed.presenter.view.screens.main.friends.FriendFragment;
 import hu.boldizsartompe.photofeed.presenter.view.screens.main.myfeed.MyFeedFragment;
 import hu.boldizsartompe.photofeed.presenter.view.screens.main.myphotos.MyPhotosFragment;
 
@@ -27,6 +29,8 @@ public class MainActivity extends BaseActivity implements MainView {
     ViewPager viewPager;
 
     private MainPresenter mainPresenter;
+
+    private MyPhotosFragment myPhotosFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,9 +85,9 @@ public class MainActivity extends BaseActivity implements MainView {
         viewPager.setAdapter(new MainPageAdapter(getSupportFragmentManager()));
     }
 
-    private static class MainPageAdapter extends FragmentPagerAdapter {
+    private class MainPageAdapter extends FragmentPagerAdapter {
 
-        private static int NUM_PAGES = 2;
+        private int NUM_PAGES = 3;
 
         public MainPageAdapter(FragmentManager fm) {
             super(fm);
@@ -93,7 +97,11 @@ public class MainActivity extends BaseActivity implements MainView {
         public Fragment getItem(int position) {
             switch (position){
                 case 0: return new MyFeedFragment();
-                case 1: return new MyPhotosFragment();
+                case 1: {
+                    myPhotosFragment = new MyPhotosFragment();
+                    return myPhotosFragment;
+                }
+                case 2: return new FriendFragment();
                 default: return null;
             }
         }
@@ -108,7 +116,35 @@ public class MainActivity extends BaseActivity implements MainView {
             switch (position){
                 case 0: return "MyFeed";
                 case 1: return "MyPhotos";
+                case 2: return "Friends";
                 default: return null;
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MyPhotosFragment.MY_PERMISSIONS_REQUEST_CAMERA: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    myPhotosFragment.handleExternalStoragePermission();
+                } else {
+                    // permission denied! Disable the
+                    // functionality that depends on this permission.
+                }
+            }
+            case MyPhotosFragment.MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    myPhotosFragment.takePhoto();
+                } else {
+                    // permission denied! Disable the
+                    // functionality that depends on this permission.
+                }
             }
         }
     }

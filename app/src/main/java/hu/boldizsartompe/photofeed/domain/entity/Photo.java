@@ -9,20 +9,23 @@ public class Photo {
     private String downloadRef;
     private String senderUserName;
     private List<Comment> comments;
-    private Date date;
+    private String date;
 
-    public Date getDate() {
-        return date;
+    public Photo() {
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Photo(String senderUserName, Date date) {
+    public Photo(String senderUserName, String date) {
         this.senderUserName = senderUserName;
         this.date = date;
 
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getDownloadRef() {

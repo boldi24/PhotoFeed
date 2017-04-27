@@ -8,4 +8,6 @@ public class DatabaseNames {
 
     public static final String PHOTOS = "PHOTOS";
 
+    public static final String FRIENDS = "FRIENDS";
+
 }
