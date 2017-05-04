@@ -17,6 +17,12 @@ public class AuthStateInteractorImpl implements AuthStateInteractor {
     }
 
     @Override
+    public String getUsername() {
+        if(!isSignedIn()) return null;
+        return authManager.getUsername();
+    }
+
+    @Override
     public void signOut() {
         authManager.signOut();
     }

@@ -1,15 +1,19 @@
 package hu.boldizsartompe.photofeed.domain.entity;
 
 
+import com.google.firebase.database.Exclude;
+
 import java.util.Date;
 import java.util.List;
 
 public class Photo {
 
+    private String id;
     private String downloadRef;
     private String senderUserName;
-    private List<Comment> comments;
     private String date;
+    @Exclude
+    private boolean doILikeIt;
 
     public Photo() {
     }
@@ -44,11 +48,19 @@ public class Photo {
         this.senderUserName = senderUserName;
     }
 
-    public List<Comment> getComments() {
-        return comments;
+    public boolean isDoILikeIt() {
+        return doILikeIt;
     }
 
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
+    public void setDoILikeIt(boolean doILikeIt) {
+        this.doILikeIt = doILikeIt;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

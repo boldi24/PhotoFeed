@@ -18,8 +18,10 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.List;
 
+import hu.boldizsartompe.photofeed.domain.entity.Comment;
 import hu.boldizsartompe.photofeed.domain.entity.Photo;
 import hu.boldizsartompe.photofeed.domain.events.main.GetPhotosEvent;
+import hu.boldizsartompe.photofeed.domain.events.main.comments.GetComments;
 import hu.boldizsartompe.photofeed.domain.events.main.myphoto.UploadPhotoEvent;
 import hu.boldizsartompe.photofeed.domain.repository.DatabaseNames;
 import hu.boldizsartompe.photofeed.domain.repository.PhotoRepository;
@@ -33,6 +35,8 @@ public class FirebasePhotoRepository implements PhotoRepository {
 
     private StorageReference storageRefToPhotos;
     private DatabaseReference dbReferenceToPhotos;
+    private DatabaseReference dbReferenceToLikes;
+    private DatabaseReference dbReferenceToComments;
 
     public static PhotoRepository getInstance(){
         if(instance == null) instance = new FirebasePhotoRepository();
@@ -42,6 +46,9 @@ public class FirebasePhotoRepository implements PhotoRepository {
     private FirebasePhotoRepository() {
         storageRefToPhotos = FirebaseStorage.getInstance().getReference().child(DatabaseNames.PHOTOS);
         dbReferenceToPhotos = FirebaseDatabase.getInstance().getReference().child(DatabaseNames.PHOTOS);
+        dbReferenceToPhotos.keepSynced(true);
+        dbReferenceToLikes = FirebaseDatabase.getInstance().getReference().child(DatabaseNames.LIKES);
+        dbReferenceToComments = FirebaseDatabase.getInstance().getReference().child(DatabaseNames.COMMENTS);
     }
 
     @Override
@@ -54,6 +61,7 @@ public class FirebasePhotoRepository implements PhotoRepository {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 String downloadUrl = taskSnapshot.getDownloadUrl().toString();
                 DatabaseReference newPhotosRef = dbReferenceToPhotos.push();
+                photo.setId(newPhotosRef.getKey());
                 photo.setDownloadRef(downloadUrl);
                 newPhotosRef.setValue(photo);
 
@@ -86,5 +94,38 @@ public class FirebasePhotoRepository implements PhotoRepository {
             }
         });
 
+    }
+
+    @Override
+    public void likePhoto(Photo photo, String username) {
+        dbReferenceToLikes.child(photo.getId()).child(username).setValue(photo.isDoILikeIt());
+    }
+
+    @Override
+    public void commentPhoto(String photoId, Comment comment) {
+        dbReferenceToComments.child(photoId).push().setValue(comment);
+    }
+
+    @Override
+    public void getCommentsOfPhoto(String id) {
+        dbReferenceToComments.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                List<Comment> comments = new ArrayList<>();
+
+                for(DataSnapshot snap : dataSnapshot.getChildren()){
+                    comments.add(snap.getValue(Comment.class));
+                }
+
+                EventBus.getDefault().post(new GetComments(comments));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                EventBus.getDefault().post(new GetComments(databaseError.toException()));
+            }
+        });
     }
 }

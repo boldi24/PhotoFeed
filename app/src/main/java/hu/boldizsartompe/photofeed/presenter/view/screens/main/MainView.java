@@ -4,6 +4,6 @@ import hu.boldizsartompe.photofeed.presenter.view.IView;
 
 public interface MainView extends IView {
 
-    void setUpContent();
+    void setUpContent(String username);
 
 }

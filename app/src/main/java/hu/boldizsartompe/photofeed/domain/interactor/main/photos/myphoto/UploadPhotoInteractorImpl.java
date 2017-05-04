@@ -9,6 +9,7 @@ import hu.boldizsartompe.photofeed.data.manager.AuthManagerImpl;
 import hu.boldizsartompe.photofeed.data.repository.FirebasePhotoRepository;
 import hu.boldizsartompe.photofeed.domain.entity.Photo;
 import hu.boldizsartompe.photofeed.domain.repository.PhotoRepository;
+import hu.boldizsartompe.photofeed.domain.util.DateManager;
 
 public class UploadPhotoInteractorImpl implements UploadPhotoInteractor {
 
@@ -20,9 +21,7 @@ public class UploadPhotoInteractorImpl implements UploadPhotoInteractor {
 
     @Override
     public void uploadPhoto(Uri uri) {
-        Date date = new Date();
-        SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd 'at' hh:mm aa");
-        Photo photo = new Photo(AuthManagerImpl.getInstance().getUsername(), ft.format(date));
+        Photo photo = new Photo(AuthManagerImpl.getInstance().getUsername(), DateManager.getCurrentDate());
 
         photoRepository.uploadPhoto(photo, uri);
     }

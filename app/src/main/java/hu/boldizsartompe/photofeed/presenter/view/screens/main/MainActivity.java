@@ -65,7 +65,6 @@ public class MainActivity extends BaseActivity implements MainView {
 
     @Override
     protected IPresenter getPresenter() {
-        //Mainactivity has no presnter, fragments have them instead
         return mainPresenter;
     }
 
@@ -75,8 +74,9 @@ public class MainActivity extends BaseActivity implements MainView {
     }
 
     @Override
-    public void setUpContent() {
+    public void setUpContent(String username) {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.tb_main);
+        myToolbar.setTitle(username);
         setSupportActionBar(myToolbar);
         viewPager.setAdapter(new MainPageAdapter(getSupportFragmentManager()));
     }

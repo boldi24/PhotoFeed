@@ -8,7 +8,7 @@ import java.util.List;
 
 import hu.boldizsartompe.photofeed.domain.entity.Photo;
 import hu.boldizsartompe.photofeed.domain.events.main.GetPhotosEvent;
-import hu.boldizsartompe.photofeed.domain.interactor.main.photos.GetPhotosBaseInteractor;
+import hu.boldizsartompe.photofeed.domain.interactor.main.photos.common.GetPhotosBaseInteractor;
 
 public class GetMyPhotosInteractorImpl extends GetPhotosBaseInteractor {
 

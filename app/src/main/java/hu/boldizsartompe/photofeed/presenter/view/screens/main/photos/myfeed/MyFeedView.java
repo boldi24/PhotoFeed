@@ -5,6 +5,6 @@ import hu.boldizsartompe.photofeed.presenter.view.screens.main.photos.PhotosView
 
 public interface MyFeedView extends PhotosView {
 
-
+    void stopRefreshing();
 
 }

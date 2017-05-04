@@ -23,7 +23,7 @@ import hu.boldizsartompe.photofeed.presenter.view.presenter.main.myfeed.MyFeedPr
 import hu.boldizsartompe.photofeed.presenter.view.screens.main.photos.BasePhotosFragment;
 import hu.boldizsartompe.photofeed.presenter.view.screens.main.photos.myphotos.MyPhotosAdapter;
 
-public class MyFeedFragment extends BasePhotosFragment implements MyFeedView {
+public class MyFeedFragment extends BasePhotosFragment implements MyFeedView, MyFeedAdapter.IPhoto {
 
 
     @BindView(R.id.rv_myfeed)
@@ -53,8 +53,15 @@ public class MyFeedFragment extends BasePhotosFragment implements MyFeedView {
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
-        adapter = new MyFeedAdapter(getContext(), new ArrayList<Photo>());
+        adapter = new MyFeedAdapter(getContext(), new ArrayList<Photo>(), this);
         recyclerView.setAdapter(adapter);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                myFeedPresenter.getMyFeedPhotos();
+            }
+        });
 
         return view;
     }
@@ -80,5 +87,21 @@ public class MyFeedFragment extends BasePhotosFragment implements MyFeedView {
     @Override
     public void showPhotos(List<Photo> photos) {
         adapter.addPhotos(photos);
+    }
+
+    @Override
+    public void likePhoto(int position) {
+        myFeedPresenter.likePhoto(position);
+    }
+
+    @Override
+    public void commentClicked(int position) {
+        myFeedPresenter.showComments(position);
+    }
+
+
+    @Override
+    public void stopRefreshing() {
+        swipeRefreshLayout.setRefreshing(false);
     }
 }

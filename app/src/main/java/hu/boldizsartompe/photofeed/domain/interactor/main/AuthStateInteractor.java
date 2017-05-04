@@ -4,6 +4,8 @@ public interface AuthStateInteractor {
 
     boolean isSignedIn();
 
+    String getUsername();
+
     void signOut();
 
 }

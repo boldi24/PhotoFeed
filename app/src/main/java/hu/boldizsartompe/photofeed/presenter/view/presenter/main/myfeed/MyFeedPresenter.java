@@ -1,22 +1,29 @@
 package hu.boldizsartompe.photofeed.presenter.view.presenter.main.myfeed;
 
-import org.greenrobot.eventbus.EventBus;
+import android.os.Bundle;
 
 import java.util.List;
 
 import hu.boldizsartompe.photofeed.domain.entity.Photo;
-import hu.boldizsartompe.photofeed.domain.interactor.main.photos.GetPhotosInteractor;
+import hu.boldizsartompe.photofeed.domain.interactor.main.photos.common.GetPhotosInteractor;
+import hu.boldizsartompe.photofeed.domain.interactor.main.photos.common.PhotoInteractor;
+import hu.boldizsartompe.photofeed.domain.interactor.main.photos.common.PhotoInteractorImpl;
 import hu.boldizsartompe.photofeed.domain.interactor.main.photos.myfeed.GetMyFeedPhotosInteractorImpl;
 import hu.boldizsartompe.photofeed.presenter.rx.JobExecutor;
 import hu.boldizsartompe.photofeed.presenter.view.presenter.BasePresenter;
+import hu.boldizsartompe.photofeed.presenter.view.screens.main.comment.CommentActivity;
 import hu.boldizsartompe.photofeed.presenter.view.screens.main.photos.myfeed.MyFeedView;
 
 public class MyFeedPresenter extends BasePresenter<MyFeedView> {
 
     private GetPhotosInteractor getMyFeedPhotosInteractor;
+    private PhotoInteractor photoInteractor;
+
+    private List<Photo> myFeedPhotos;
 
     public MyFeedPresenter() {
         getMyFeedPhotosInteractor = new GetMyFeedPhotosInteractorImpl();
+        photoInteractor = new PhotoInteractorImpl();
     }
 
     @Override
@@ -40,19 +47,32 @@ public class MyFeedPresenter extends BasePresenter<MyFeedView> {
                     @Override
                     public void onGetMyPhotos(List<Photo> photos) {
                         if(mView != null){
+                            myFeedPhotos = photos;
+                            mView.stopRefreshing();
                             mView.showPhotos(photos);
                         }
                     }
 
                     @Override
                     public void onError() {
-                        //TODO
+                        mView.stopRefreshing();
                     }
                 });
             }
         });
+    }
 
+    public void likePhoto(int  position){
+        photoInteractor.likePhoto(myFeedPhotos.get(position));
+    }
 
+    public void showComments(int position){
+        if(isViewNotNull()){
+            Bundle bundle = new Bundle();
+            bundle.putString(CommentActivity.EXTRA_PHOTOID, myFeedPhotos.get(position).getId());
+
+            mView.onStartActivityWithBundle(CommentActivity.class, bundle);
+        }
     }
 
 }

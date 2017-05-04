@@ -16,12 +16,12 @@ public class MainPresenter extends BasePresenter<MainView> {
     }
 
     public void checkIfUserSignedIn(){
-        boolean isSignedIn = authStateInteractor.isSignedIn();
+        String username = authStateInteractor.getUsername();
         if(isViewNotNull()) {
-            if (!isSignedIn) {
+            if (username == null) {
                 mView.onStartActivityWithoutBundle(LoginActivity.class);
             } else {
-                mView.setUpContent();
+                mView.setUpContent(username);
             }
         }
     }

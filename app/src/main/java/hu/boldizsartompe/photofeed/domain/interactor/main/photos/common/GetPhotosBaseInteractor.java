@@ -1,4 +1,4 @@
-package hu.boldizsartompe.photofeed.domain.interactor.main.photos;
+package hu.boldizsartompe.photofeed.domain.interactor.main.photos.common;
 
 import org.greenrobot.eventbus.EventBus;
 

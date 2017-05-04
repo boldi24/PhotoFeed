@@ -10,7 +10,7 @@ import java.util.List;
 
 import hu.boldizsartompe.photofeed.domain.entity.Photo;
 import hu.boldizsartompe.photofeed.domain.events.main.myphoto.UploadPhotoEvent;
-import hu.boldizsartompe.photofeed.domain.interactor.main.photos.GetPhotosInteractor;
+import hu.boldizsartompe.photofeed.domain.interactor.main.photos.common.GetPhotosInteractor;
 import hu.boldizsartompe.photofeed.domain.interactor.main.photos.myphoto.GetMyPhotosInteractorImpl;
 import hu.boldizsartompe.photofeed.domain.interactor.main.photos.myphoto.UploadPhotoInteractor;
 import hu.boldizsartompe.photofeed.domain.interactor.main.photos.myphoto.UploadPhotoInteractorImpl;

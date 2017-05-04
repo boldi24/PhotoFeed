@@ -36,4 +36,7 @@
     <string name="Igen">Igen</string>
     <string name="dialog_title_add_friend">Barát bejelölés</string>
     <string name="accept">Elfogad</string>
+    <string name="title_activity_comment">CommentActivity</string>
+    <string name="text_write_comment">Írj ide kommentet!</string>
+    <string name="text_loading_comments">Kommentek betöltése...</string>
 </resources>

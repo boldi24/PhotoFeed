@@ -11,7 +11,7 @@ import hu.boldizsartompe.photofeed.domain.entity.Friend;
 import hu.boldizsartompe.photofeed.domain.entity.Photo;
 import hu.boldizsartompe.photofeed.domain.events.main.GetPhotosEvent;
 import hu.boldizsartompe.photofeed.domain.events.main.friends.GetFriendsEvent;
-import hu.boldizsartompe.photofeed.domain.interactor.main.photos.GetPhotosBaseInteractor;
+import hu.boldizsartompe.photofeed.domain.interactor.main.photos.common.GetPhotosBaseInteractor;
 import hu.boldizsartompe.photofeed.domain.repository.UserRepository;
 
 public class GetMyFeedPhotosInteractorImpl extends GetPhotosBaseInteractor {
@@ -51,6 +51,7 @@ public class GetMyFeedPhotosInteractorImpl extends GetPhotosBaseInteractor {
         if(photos != null){
             for(Photo photo : photos){
                 if(isMyFriend(photo.getSenderUserName())) {
+                    //TODO nézzük meg h lájkoltam e
                     friendsPhotos.add(photo);
                 }
             }
