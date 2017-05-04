@@ -1,16 +1,12 @@
 package hu.boldizsartompe.photofeed.presenter.view.screens.main;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -20,8 +16,8 @@ import hu.boldizsartompe.photofeed.presenter.view.BaseActivity;
 import hu.boldizsartompe.photofeed.presenter.view.presenter.IPresenter;
 import hu.boldizsartompe.photofeed.presenter.view.presenter.main.MainPresenter;
 import hu.boldizsartompe.photofeed.presenter.view.screens.main.friends.FriendFragment;
-import hu.boldizsartompe.photofeed.presenter.view.screens.main.myfeed.MyFeedFragment;
-import hu.boldizsartompe.photofeed.presenter.view.screens.main.myphotos.MyPhotosFragment;
+import hu.boldizsartompe.photofeed.presenter.view.screens.main.photos.myfeed.MyFeedFragment;
+import hu.boldizsartompe.photofeed.presenter.view.screens.main.photos.myphotos.MyPhotosFragment;
 
 public class MainActivity extends BaseActivity implements MainView {
 

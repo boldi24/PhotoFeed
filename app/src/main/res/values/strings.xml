@@ -30,4 +30,10 @@
     <string name="dialogtitle_permission">Engedélykérés</string>
     <string name="text_photo_upload_error">Kép feltöltése sikertelen!</string>
     <string name="text_photo_upload_inprogress">Kép feltöltése folyamatban...</string>
+    <string name="text_you_cant_add_yourself">Saját magadat nem tudod hozzáadni!</string>
+    <string name="text_do_you_want_to_add_friend">Bejelölöd barátnak %s-t?</string>
+    <string name="no">Nem</string>
+    <string name="Igen">Igen</string>
+    <string name="dialog_title_add_friend">Barát bejelölés</string>
+    <string name="accept">Elfogad</string>
 </resources>

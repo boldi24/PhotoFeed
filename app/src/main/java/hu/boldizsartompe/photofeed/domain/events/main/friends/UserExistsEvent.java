@@ -9,11 +9,11 @@ import hu.boldizsartompe.photofeed.domain.events.BaseEvent;
 public class UserExistsEvent extends BaseEvent {
 
     private boolean doesExist;
-    private Friend friend;
+    private String name;
 
-    public UserExistsEvent(boolean doesExist, Friend friend) {
+    public UserExistsEvent(boolean doesExist, String name) {
         this.doesExist = doesExist;
-        this.friend = friend;
+        this.name = name;
     }
 
     public UserExistsEvent(Throwable throwable) {
@@ -22,10 +22,9 @@ public class UserExistsEvent extends BaseEvent {
 
     public boolean doesExist() {
         return doesExist;
-
     }
 
-    public Friend getFriend() {
-        return friend;
+    public String getName() {
+        return name;
     }
 }

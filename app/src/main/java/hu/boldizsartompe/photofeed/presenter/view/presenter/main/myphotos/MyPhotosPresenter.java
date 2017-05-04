@@ -10,19 +10,19 @@ import java.util.List;
 
 import hu.boldizsartompe.photofeed.domain.entity.Photo;
 import hu.boldizsartompe.photofeed.domain.events.main.myphoto.UploadPhotoEvent;
-import hu.boldizsartompe.photofeed.domain.interactor.main.myphoto.GetMyPhotosInteractor;
-import hu.boldizsartompe.photofeed.domain.interactor.main.myphoto.GetMyPhotosInteractorImpl;
-import hu.boldizsartompe.photofeed.domain.interactor.main.myphoto.UploadPhotoInteractor;
-import hu.boldizsartompe.photofeed.domain.interactor.main.myphoto.UploadPhotoInteractorImpl;
+import hu.boldizsartompe.photofeed.domain.interactor.main.photos.GetPhotosInteractor;
+import hu.boldizsartompe.photofeed.domain.interactor.main.photos.myphoto.GetMyPhotosInteractorImpl;
+import hu.boldizsartompe.photofeed.domain.interactor.main.photos.myphoto.UploadPhotoInteractor;
+import hu.boldizsartompe.photofeed.domain.interactor.main.photos.myphoto.UploadPhotoInteractorImpl;
 import hu.boldizsartompe.photofeed.presenter.rx.JobExecutor;
 import hu.boldizsartompe.photofeed.presenter.view.presenter.BasePresenter;
-import hu.boldizsartompe.photofeed.presenter.view.screens.main.myphotos.MyPhotosView;
+import hu.boldizsartompe.photofeed.presenter.view.screens.main.photos.myphotos.MyPhotosView;
 
 public class MyPhotosPresenter extends BasePresenter<MyPhotosView> {
 
     private UploadPhotoInteractor uploadPhotoInteractor;
 
-    private GetMyPhotosInteractor getMyPhotos;
+    private GetPhotosInteractor getMyPhotos;
 
     public MyPhotosPresenter() {
         uploadPhotoInteractor = new UploadPhotoInteractorImpl();
@@ -61,21 +61,16 @@ public class MyPhotosPresenter extends BasePresenter<MyPhotosView> {
     }
 
     public void getMyPhotos(){
-        if(isViewNotNull()) mView.showLoading("Képek letöltése");
-        getMyPhotos.getMyPhotos(new GetMyPhotosInteractor.GetMyPhotosCallback() {
+        getMyPhotos.getPhotos(new GetPhotosInteractor.GetPhotosCallback() {
             @Override
             public void onGetMyPhotos(List<Photo> photos) {
                 if(isViewNotNull()){
-                    mView.hideLoading();
-                    mView.showNewPhotos(photos);
+                    mView.showPhotos(photos);
                 }
             }
 
             @Override
             public void onError() {
-                if(isViewNotNull()){
-                    mView.hideLoading();
-                }
             }
         });
     }

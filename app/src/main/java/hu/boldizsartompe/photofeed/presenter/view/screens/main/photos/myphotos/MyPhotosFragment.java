@@ -1,4 +1,4 @@
-package hu.boldizsartompe.photofeed.presenter.view.screens.main.myphotos;
+package hu.boldizsartompe.photofeed.presenter.view.screens.main.photos.myphotos;
 
 
 import android.Manifest;
@@ -36,10 +36,10 @@ import hu.boldizsartompe.photofeed.domain.entity.Photo;
 import hu.boldizsartompe.photofeed.presenter.utils.MessageShower;
 import hu.boldizsartompe.photofeed.presenter.view.BaseActivity;
 import hu.boldizsartompe.photofeed.presenter.view.presenter.main.myphotos.MyPhotosPresenter;
-import hu.boldizsartompe.photofeed.presenter.view.screens.main.MainActivity;
+import hu.boldizsartompe.photofeed.presenter.view.screens.main.photos.BasePhotosFragment;
 
 
-public class MyPhotosFragment extends Fragment implements MyPhotosView {
+public class MyPhotosFragment extends BasePhotosFragment implements MyPhotosView{
 
     public static final int MY_PERMISSIONS_REQUEST_CAMERA = 100;
     public static final int MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE = 101;
@@ -96,26 +96,6 @@ public class MyPhotosFragment extends Fragment implements MyPhotosView {
         super.onStop();
     }
 
-    @Override
-    public void showLoading(String message) {
-        ((BaseActivity)getActivity()).showLoading(message);
-    }
-
-    @Override
-    public void hideLoading() {
-        ((BaseActivity)getActivity()).hideLoading();
-    }
-
-    @Override
-    public void onStartActivityWithBundle(Class<?> cls, Bundle bundle) {
-
-    }
-
-    @Override
-    public void onStartActivityWithoutBundle(Class<?> cls) {
-
-    }
-
     //will not be called
     @Override
     public int getContentView() {
@@ -149,7 +129,7 @@ public class MyPhotosFragment extends Fragment implements MyPhotosView {
     }
 
     @Override
-    public void showNewPhotos(List<Photo> photos) {
+    public void showPhotos(List<Photo> photos) {
         adapter.addPhotos(photos);
     }
 
@@ -158,31 +138,34 @@ public class MyPhotosFragment extends Fragment implements MyPhotosView {
         handleCameraPermission();
     }
 
+    private void showPermissionDialog(final String permission, final int code) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+        alertDialogBuilder.setTitle(R.string.dialogtitle_permission);
+        alertDialogBuilder
+                .setMessage(R.string.explanation_camera_permission)
+                .setCancelable(false)
+                .setNegativeButton(R.string.exit, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        MessageShower.showSnackbarToastOnContextWithMessage(getView(), "Az engedély nélkül nem lehet képet készíteni!");
+                    }
+                })
+                .setPositiveButton(R.string.forward, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        ActivityCompat.requestPermissions(getActivity(), new String[]{permission}, code);
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
     private void handleCameraPermission(){
         if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CAMERA)) {
-
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
-                alertDialogBuilder.setTitle(R.string.dialogtitle_permission);
-                alertDialogBuilder
-                        .setMessage(R.string.explanation_camera_permission)
-                        .setCancelable(false)
-                        .setNegativeButton(R.string.exit, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                MessageShower.showSnackbarToastOnContextWithMessage(getView(), "Az engedély nélkül nem lehet képet készíteni!");
-                            }
-                        })
-                        .setPositiveButton(R.string.forward, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CAMERA);
-                            }
-                        });
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
+                showPermissionDialog(Manifest.permission.CAMERA, MY_PERMISSIONS_REQUEST_CAMERA);
             } else {
                 // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CAMERA);
@@ -195,28 +178,10 @@ public class MyPhotosFragment extends Fragment implements MyPhotosView {
     public void handleExternalStoragePermission(){
         if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
-                alertDialogBuilder.setTitle(R.string.dialogtitle_permission);
-                alertDialogBuilder
-                        .setMessage(R.string.explanation_camera_permission)
-                        .setCancelable(false)
-                        .setNegativeButton(R.string.exit, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                MessageShower.showSnackbarToastOnContextWithMessage(getView(), "Az engedély nélkül nem lehet képet készíteni!");
-                            }
-                        })
-                        .setPositiveButton(R.string.forward, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE);
-                            }
-                        });
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
+                showPermissionDialog(Manifest.permission.WRITE_EXTERNAL_STORAGE, MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE);
             } else {
                 // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE);
@@ -251,5 +216,4 @@ public class MyPhotosFragment extends Fragment implements MyPhotosView {
         }
 
     }
-
 }

@@ -41,7 +41,6 @@ public class FirebasePhotoRepository implements PhotoRepository {
 
     private FirebasePhotoRepository() {
         storageRefToPhotos = FirebaseStorage.getInstance().getReference().child(DatabaseNames.PHOTOS);
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         dbReferenceToPhotos = FirebaseDatabase.getInstance().getReference().child(DatabaseNames.PHOTOS);
     }
 

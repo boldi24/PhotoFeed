@@ -1,12 +1,12 @@
-package hu.boldizsartompe.photofeed.domain.interactor.main.myphoto;
+package hu.boldizsartompe.photofeed.domain.interactor.main.photos;
 
 import java.util.List;
 
 import hu.boldizsartompe.photofeed.domain.entity.Photo;
 
-public interface GetMyPhotosInteractor {
+public interface GetPhotosInteractor {
 
-    interface GetMyPhotosCallback{
+    interface GetPhotosCallback {
 
         void onGetMyPhotos(List<Photo> photos);
 
@@ -14,7 +14,7 @@ public interface GetMyPhotosInteractor {
 
     }
 
-    void getMyPhotos(GetMyPhotosCallback callback);
+    void getPhotos(GetPhotosCallback callback);
 
     void onResume();
 

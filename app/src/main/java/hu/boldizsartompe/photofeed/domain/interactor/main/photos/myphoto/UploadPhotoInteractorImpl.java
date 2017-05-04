@@ -1,4 +1,4 @@
-package hu.boldizsartompe.photofeed.domain.interactor.main.myphoto;
+package hu.boldizsartompe.photofeed.domain.interactor.main.photos.myphoto;
 
 import android.net.Uri;
 

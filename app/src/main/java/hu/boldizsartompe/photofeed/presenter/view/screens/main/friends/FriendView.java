@@ -18,7 +18,11 @@ public interface FriendView extends IView {
 
     void showTypeFriendUsername();
 
+    void showCantAddYourself();
+
     void showFriends(List<Friend> friends);
 
     void showFriend(Friend friend);
+
+    void showAddFriend(String username);
 }

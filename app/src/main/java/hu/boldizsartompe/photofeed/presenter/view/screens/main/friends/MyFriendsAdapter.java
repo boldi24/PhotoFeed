@@ -2,18 +2,16 @@ package hu.boldizsartompe.photofeed.presenter.view.screens.main.friends;
 
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,19 +22,21 @@ public class MyFriendsAdapter extends RecyclerView.Adapter<MyFriendsAdapter.View
 
     private List<Friend> friends;
 
-    private UserInteractionCallback callback;
+    private IFriendItemCallback callback;
 
     private Context context;
 
-    public MyFriendsAdapter(Context ctx, List<Friend> friends, UserInteractionCallback callback) {
+    public MyFriendsAdapter(Context ctx, List<Friend> friends, IFriendItemCallback callback) {
         this.context = ctx;
         this.friends = friends;
         this.callback = callback;
     }
 
-    interface UserInteractionCallback{
+    interface IFriendItemCallback {
 
         void deleteFriend(String username);
+
+        void acceptFriend(String username);
 
     }
 
@@ -48,20 +48,37 @@ public class MyFriendsAdapter extends RecyclerView.Adapter<MyFriendsAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Friend friend = friends.get(position);
+        final Friend friend = friends.get(position);
 
-        if(friend.isVerified()){
-            holder.linerLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.verfied));
-        } else {
-            holder.linerLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.unverfied));
+        switch (friend.getState()){
+            case Friend.FRIEND_REQUEST_FROM_ME:
+                holder.stateTV.setText("Barátnak jelölted");
+                break;
+            case Friend.FRIEND_REQUEST_FROM_OTHER:
+                holder.stateTV.setText("Bejelölt barátnak");
+                holder.acceptBTN.setVisibility(View.VISIBLE);
+                holder.acceptBTN.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        callback.acceptFriend(friend.getUsername());
+                    }
+                });
+                break;
+            case Friend.VERIFIED_FRIEND:
+                holder.stateTV.setText("Barátod");
+                holder.deleteBTN.setVisibility(View.VISIBLE);
+                holder.deleteBTN.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        callback.deleteFriend(friend.getUsername());
+                    }
+                });
+                break;
+            default:
+                break;
         }
-        holder.nameTV.setText(friend.getUsername());
-        holder.deleteBTN.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
+        holder.nameTV.setText(friend.getUsername());
 
     }
 
@@ -82,12 +99,14 @@ public class MyFriendsAdapter extends RecyclerView.Adapter<MyFriendsAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.ll_myfriends_item)
-        LinearLayout linerLayout;
         @BindView(R.id.tv_myfriends_item_username)
         TextView nameTV;
         @BindView(R.id.btn_myfriends_item_delete)
         Button deleteBTN;
+        @BindView(R.id.tv_myfriends_item_state)
+        TextView stateTV;
+        @BindView(R.id.btn_myfriends_item_accept)
+        Button acceptBTN;
 
         public ViewHolder(View itemView) {
             super(itemView);

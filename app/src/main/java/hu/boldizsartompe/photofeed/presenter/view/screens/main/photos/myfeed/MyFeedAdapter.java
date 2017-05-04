@@ -1,5 +1,4 @@
-package hu.boldizsartompe.photofeed.presenter.view.screens.main.myphotos;
-
+package hu.boldizsartompe.photofeed.presenter.view.screens.main.photos.myfeed;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -19,12 +17,12 @@ import butterknife.ButterKnife;
 import hu.boldizsartompe.photofeed.R;
 import hu.boldizsartompe.photofeed.domain.entity.Photo;
 
-public class MyPhotosAdapter extends RecyclerView.Adapter<MyPhotosAdapter.ViewHolder> {
+public class MyFeedAdapter extends RecyclerView.Adapter<MyFeedAdapter.ViewHolder> {
 
     private List<Photo> photos;
     private Context context;
 
-    public MyPhotosAdapter(Context context, List<Photo> photos) {
+    public MyFeedAdapter(Context context, List<Photo> photos) {
         this.context = context;
         this.photos = photos;
     }
@@ -72,5 +70,4 @@ public class MyPhotosAdapter extends RecyclerView.Adapter<MyPhotosAdapter.ViewHo
             ButterKnife.bind(this, itemView);
         }
     }
-
 }

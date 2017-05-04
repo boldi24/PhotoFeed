@@ -1,9 +1,11 @@
 package hu.boldizsartompe.photofeed.presenter.view.screens.main.friends;
 
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,19 +15,17 @@ import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import hu.boldizsartompe.photofeed.R;
 import hu.boldizsartompe.photofeed.domain.entity.Friend;
-import hu.boldizsartompe.photofeed.domain.events.BaseEvent;
 import hu.boldizsartompe.photofeed.presenter.utils.MessageShower;
 import hu.boldizsartompe.photofeed.presenter.view.BaseActivity;
 import hu.boldizsartompe.photofeed.presenter.view.presenter.main.friends.FriendsPresenter;
 
-public class FriendFragment extends Fragment implements FriendView, MyFriendsAdapter.UserInteractionCallback {
+public class FriendFragment extends Fragment implements FriendView, MyFriendsAdapter.IFriendItemCallback {
 
 
     @BindView(R.id.et_friends_findfriend)
@@ -52,6 +52,7 @@ public class FriendFragment extends Fragment implements FriendView, MyFriendsAda
     public void onStart() {
         super.onStart();
         friendsPresenter.attachView(this);
+        friendsPresenter.getFriends();
     }
 
     @Override
@@ -102,6 +103,13 @@ public class FriendFragment extends Fragment implements FriendView, MyFriendsAda
     }
 
     @Override
+    public void showCantAddYourself() {
+        MessageShower.showSnackbarToastOnContextWithMessage(
+                getActivity().findViewById(android.R.id.content),
+                getString(R.string.text_you_cant_add_yourself));
+    }
+
+    @Override
     public void showFriends(List<Friend> friends) {
         adapter.addFriends(friends);
     }
@@ -109,6 +117,28 @@ public class FriendFragment extends Fragment implements FriendView, MyFriendsAda
     @Override
     public void showFriend(Friend friend) {
         adapter.addFriend(friend);
+    }
+
+    @Override
+    public void showAddFriend(final String username) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+        alertDialogBuilder.setTitle(R.string.dialog_title_add_friend);
+        alertDialogBuilder
+                .setMessage(getString(R.string.text_do_you_want_to_add_friend, username))
+                .setCancelable(false)
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton(R.string.Igen, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                        friendsPresenter.addFriend(username);
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
     @Override
@@ -139,5 +169,10 @@ public class FriendFragment extends Fragment implements FriendView, MyFriendsAda
     @Override
     public void deleteFriend(String username) {
         //TODO delete friend
+    }
+
+    @Override
+    public void acceptFriend(String username) {
+        friendsPresenter.acceptFriend(username);
     }
 }

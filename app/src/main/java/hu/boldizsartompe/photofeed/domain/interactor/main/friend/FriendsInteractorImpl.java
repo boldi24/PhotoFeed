@@ -3,6 +3,7 @@ package hu.boldizsartompe.photofeed.domain.interactor.main.friend;
 import hu.boldizsartompe.photofeed.data.manager.AuthManager;
 import hu.boldizsartompe.photofeed.data.manager.AuthManagerImpl;
 import hu.boldizsartompe.photofeed.data.repository.FirebaseUserRepository;
+import hu.boldizsartompe.photofeed.domain.entity.Friend;
 import hu.boldizsartompe.photofeed.domain.repository.UserRepository;
 
 public class FriendsInteractorImpl implements FriendsInteractor {
@@ -17,8 +18,27 @@ public class FriendsInteractorImpl implements FriendsInteractor {
     }
 
     @Override
-    public void findFriend(String username) {
-        if(username.equals(authManager.getUsername())) return;
+    public void findFriend(String username, friendsInteractorCallback callback) {
+        if(username.equals(authManager.getUsername())) {
+            callback.onLoggedInUsersName();
+            return;
+        }
         userRepository.doesUserExist(username);
+    }
+
+    @Override
+    public void addFriend(String friendUsername) {
+
+        userRepository.requestAddFriend(authManager.getUsername(), friendUsername);
+    }
+
+    @Override
+    public void acceptFriend(String friendUsername) {
+        userRepository.acceptFriend(authManager.getUsername(), friendUsername);
+    }
+
+    @Override
+    public void getMyFriends() {
+        userRepository.getMyFriends(authManager.getUsername());
     }
 }

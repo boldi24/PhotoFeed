@@ -5,10 +5,14 @@ public interface UserRepository {
 
     void doesUserExist(String username);
 
-    void addFriend(String username);
+    void registerUser(String username);
 
-    void verifyFriend(String username);
+    void requestAddFriend(String usernameMe, String usernameFriend);
+
+    void acceptFriend(String usernameMe, String usernameFriend);
 
     void deleteFriend(String username);
+
+    void getMyFriends(String username);
 
 }

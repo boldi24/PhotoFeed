@@ -10,4 +10,5 @@ public class DatabaseNames {
 
     public static final String FRIENDS = "FRIENDS";
 
+    public static final String USERS = "USERS";
 }
