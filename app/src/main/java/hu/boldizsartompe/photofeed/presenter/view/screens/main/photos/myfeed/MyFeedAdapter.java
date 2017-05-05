@@ -88,6 +88,7 @@ public class MyFeedAdapter extends RecyclerView.Adapter<MyFeedAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
+        if(photos == null) return 0;
         return photos.size();
     }
 

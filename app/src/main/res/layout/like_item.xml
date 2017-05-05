@@ -1,0 +1,9 @@
+<TextView
+    android:id="@+id/tv_like_item_username"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:text="username"
+    android:gravity="center"
+    android:textColor="#000"
+    android:textSize="@dimen/text_main_size"/>

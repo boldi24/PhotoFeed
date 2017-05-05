@@ -39,7 +39,7 @@ import hu.boldizsartompe.photofeed.presenter.view.presenter.main.myphotos.MyPhot
 import hu.boldizsartompe.photofeed.presenter.view.screens.main.photos.BasePhotosFragment;
 
 
-public class MyPhotosFragment extends BasePhotosFragment implements MyPhotosView{
+public class MyPhotosFragment extends BasePhotosFragment implements MyPhotosView, MyPhotosAdapter.IPhoto {
 
     public static final int MY_PERMISSIONS_REQUEST_CAMERA = 100;
     public static final int MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE = 101;
@@ -77,7 +77,7 @@ public class MyPhotosFragment extends BasePhotosFragment implements MyPhotosView
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
-        adapter = new MyPhotosAdapter(getContext(), new ArrayList<Photo>());
+        adapter = new MyPhotosAdapter(getContext(), new ArrayList<Photo>(), this);
         recyclerView.setAdapter(adapter);
 
         return view;
@@ -215,5 +215,15 @@ public class MyPhotosFragment extends BasePhotosFragment implements MyPhotosView
 
         }
 
+    }
+
+    @Override
+    public void likeClicked(int position) {
+        myPhotosPresenter.viewLikes(position);
+    }
+
+    @Override
+    public void commentClicked(int position) {
+        myPhotosPresenter.viewComments(position);
     }
 }

@@ -22,6 +22,7 @@ import hu.boldizsartompe.photofeed.domain.entity.Comment;
 import hu.boldizsartompe.photofeed.domain.entity.Photo;
 import hu.boldizsartompe.photofeed.domain.events.main.GetPhotosEvent;
 import hu.boldizsartompe.photofeed.domain.events.main.comments.GetComments;
+import hu.boldizsartompe.photofeed.domain.events.main.likes.GetLikesEvent;
 import hu.boldizsartompe.photofeed.domain.events.main.myphoto.UploadPhotoEvent;
 import hu.boldizsartompe.photofeed.domain.repository.DatabaseNames;
 import hu.boldizsartompe.photofeed.domain.repository.PhotoRepository;
@@ -155,6 +156,28 @@ public class FirebasePhotoRepository implements PhotoRepository {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 EventBus.getDefault().post(new GetComments(databaseError.toException()));
+            }
+        });
+    }
+
+    @Override
+    public void getLikesOfPhoto(String id) {
+        dbReferenceToLikes.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                List<String> usernames = new ArrayList<>();
+
+                for(DataSnapshot snap : dataSnapshot.getChildren()){
+                    usernames.add(snap.getKey());
+                }
+
+                EventBus.getDefault().post(new GetLikesEvent(usernames));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                EventBus.getDefault().post(new GetLikesEvent(databaseError.toException()));
             }
         });
     }

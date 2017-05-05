@@ -39,4 +39,7 @@
     <string name="title_activity_comment">CommentActivity</string>
     <string name="text_write_comment">Írj ide kommentet!</string>
     <string name="text_loading_comments">Kommentek betöltése...</string>
+    <string name="text_num_likes">%d likes</string>
+    <string name="title_activity_likes">LikesActivity</string>
+    <string name="text_downloading_likes">Like-ok letöltése...</string>
 </resources>

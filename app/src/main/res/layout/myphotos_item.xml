@@ -5,10 +5,11 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp"
-    card_view:cardCornerRadius="4dp"
-    android:backgroundTint="#FFF3E0">
+    card_view:cardCornerRadius="4dp">
 
     <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -20,10 +21,42 @@
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"/>
 
-        <TextView
-            android:id="@+id/tv_myphotos_item_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <RelativeLayout
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_myphotos_item_likes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="5 likes"
+                />
+
+            <ImageView
+                android:layout_marginLeft="30dp"
+                android:layout_toRightOf="@id/tv_myphotos_item_likes"
+                android:id="@+id/iv_myphotos_item_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_message_black_36dp"/>
+
+
+            <TextView
+                android:layout_marginRight="10dp"
+                android:id="@+id/tv_myphotos_item_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="datum"/>
+
+        </RelativeLayout>
 
     </LinearLayout>
 

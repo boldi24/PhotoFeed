@@ -22,10 +22,19 @@ public class MyPhotosAdapter extends RecyclerView.Adapter<MyPhotosAdapter.ViewHo
 
     private List<Photo> photos;
     private Context context;
+    private IPhoto callback;
 
-    public MyPhotosAdapter(Context context, List<Photo> photos) {
+    interface IPhoto{
+
+        void likeClicked(int position);
+
+        void commentClicked(int position);
+    }
+
+    public MyPhotosAdapter(Context context, List<Photo> photos, IPhoto callback) {
         this.context = context;
         this.photos = photos;
+        this.callback = callback;
     }
 
     public void addPhoto(Photo photo){
@@ -46,15 +55,30 @@ public class MyPhotosAdapter extends RecyclerView.Adapter<MyPhotosAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        position = photos.size() - 1 - position;
-        Photo currPhoto = photos.get(position);
+        final int myPosition = photos.size() - 1 - position;
+        Photo currPhoto = photos.get(myPosition);
         Picasso.with(context).load(currPhoto.getDownloadRef()).resize(800,800).centerCrop().into(holder.photoIV);
         holder.dateTV.setText(currPhoto.getDate());
-
+        holder.commentIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callback.commentClicked(myPosition);
+            }
+        });
+        holder.likeTV.setText(context.getResources()
+                .getString(R.string.text_num_likes,
+                        currPhoto.getWhoLikedThPhoto() == null ? 0 : currPhoto.getWhoLikedThPhoto().size()));
+        holder.likeTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callback.likeClicked(myPosition);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
+        if(photos == null) return 0;
         return photos.size();
     }
 
@@ -64,6 +88,10 @@ public class MyPhotosAdapter extends RecyclerView.Adapter<MyPhotosAdapter.ViewHo
         ImageView photoIV;
         @BindView(R.id.tv_myphotos_item_date)
         TextView dateTV;
+        @BindView(R.id.iv_myphotos_item_comment)
+        ImageView commentIV;
+        @BindView(R.id.tv_myphotos_item_likes)
+        TextView likeTV;
 
         public ViewHolder(View itemView) {
             super(itemView);

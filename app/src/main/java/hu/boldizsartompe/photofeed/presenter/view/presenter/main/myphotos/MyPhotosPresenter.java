@@ -1,6 +1,7 @@
 package hu.boldizsartompe.photofeed.presenter.view.presenter.main.myphotos;
 
 import android.net.Uri;
+import android.os.Bundle;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -16,6 +17,8 @@ import hu.boldizsartompe.photofeed.domain.interactor.main.photos.myphoto.UploadP
 import hu.boldizsartompe.photofeed.domain.interactor.main.photos.myphoto.UploadPhotoInteractorImpl;
 import hu.boldizsartompe.photofeed.presenter.rx.JobExecutor;
 import hu.boldizsartompe.photofeed.presenter.view.presenter.BasePresenter;
+import hu.boldizsartompe.photofeed.presenter.view.screens.main.comment.CommentActivity;
+import hu.boldizsartompe.photofeed.presenter.view.screens.main.likes.LikesActivity;
 import hu.boldizsartompe.photofeed.presenter.view.screens.main.photos.myphotos.MyPhotosView;
 
 public class MyPhotosPresenter extends BasePresenter<MyPhotosView> {
@@ -23,6 +26,8 @@ public class MyPhotosPresenter extends BasePresenter<MyPhotosView> {
     private UploadPhotoInteractor uploadPhotoInteractor;
 
     private GetPhotosInteractor getMyPhotos;
+
+    private List<Photo> myPhotos;
 
     public MyPhotosPresenter() {
         uploadPhotoInteractor = new UploadPhotoInteractorImpl();
@@ -65,6 +70,7 @@ public class MyPhotosPresenter extends BasePresenter<MyPhotosView> {
             @Override
             public void onGetMyPhotos(List<Photo> photos) {
                 if(isViewNotNull()){
+                    myPhotos = photos;
                     mView.showPhotos(photos);
                 }
             }
@@ -89,4 +95,22 @@ public class MyPhotosPresenter extends BasePresenter<MyPhotosView> {
         }
     }
 
+    public void viewComments(int position) {
+        //TODO: TO BASE CLASS!
+        if(isViewNotNull() && myPhotos!= null){
+            Bundle bundle = new Bundle();
+            bundle.putString(CommentActivity.EXTRA_PHOTOID, myPhotos.get(position).getId());
+
+            mView.onStartActivityWithBundle(CommentActivity.class, bundle);
+        }
+    }
+
+    public void viewLikes(int position) {
+        if(isViewNotNull() && myPhotos!= null){
+            Bundle bundle = new Bundle();
+            bundle.putString(LikesActivity.EXTRA_PHOTOID, myPhotos.get(position).getId());
+
+            mView.onStartActivityWithBundle(LikesActivity.class, bundle);
+        }
+    }
 }

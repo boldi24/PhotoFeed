@@ -6,6 +6,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.List;
+
 import hu.boldizsartompe.photofeed.domain.entity.Friend;
 import hu.boldizsartompe.photofeed.domain.events.main.friends.GetFriendsEvent;
 import hu.boldizsartompe.photofeed.domain.events.main.friends.UserExistsEvent;
@@ -23,6 +25,8 @@ public class FriendsPresenter extends BasePresenter<FriendView> {
     public FriendsPresenter() {
         friendsInteractor = new FriendsInteractorImpl();
     }
+
+    List<Friend> friends;
 
     @Override
     public void attachView(FriendView view) {
@@ -119,7 +123,8 @@ public class FriendsPresenter extends BasePresenter<FriendView> {
         if(isViewNotNull()){
 
             if(event.getFriends() != null){
-                mView.showFriends(event.getFriends());
+                friends = event.getFriends();
+                mView.showFriends(friends);
             } else if(event.getThrowable() != null){
                 //error
             }

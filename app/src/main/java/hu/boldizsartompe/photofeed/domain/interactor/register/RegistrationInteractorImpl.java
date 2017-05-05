@@ -18,7 +18,7 @@ public class RegistrationInteractorImpl implements RegistrationInteractor {
 
     @Override
     public void registerUserWithUsernameAndPassword(String username, String password) {
-        authManager.registerWithUsernamePassword(username, password);
         userRepository.registerUser(username);
+        authManager.registerWithUsernamePassword(username, password);
     }
 }

@@ -47,7 +47,7 @@ public class MyFriendsAdapter extends RecyclerView.Adapter<MyFriendsAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         final Friend friend = friends.get(position);
 
         switch (friend.getState()){
@@ -61,6 +61,8 @@ public class MyFriendsAdapter extends RecyclerView.Adapter<MyFriendsAdapter.View
                     @Override
                     public void onClick(View view) {
                         callback.acceptFriend(friend.getUsername());
+                        friend.setState(Friend.VERIFIED_FRIEND);
+                        notifyItemChanged(position);
                     }
                 });
                 break;
@@ -84,6 +86,7 @@ public class MyFriendsAdapter extends RecyclerView.Adapter<MyFriendsAdapter.View
 
     @Override
     public int getItemCount() {
+        if(friends == null) return 0;
         return friends.size();
     }
 

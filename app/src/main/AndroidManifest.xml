@@ -42,6 +42,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="hu.boldizsartompe.photofeed.presenter.view.screens.main.MainActivity" />
         </activity>
+        <activity
+            android:name=".presenter.view.screens.main.likes.LikesActivity"
+            android:label="@string/title_activity_likes"
+            android:parentActivityName=".presenter.view.screens.main.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="hu.boldizsartompe.photofeed.presenter.view.screens.main.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

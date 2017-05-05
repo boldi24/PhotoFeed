@@ -6,8 +6,8 @@ import java.util.List;
 
 import hu.boldizsartompe.photofeed.domain.entity.Photo;
 import hu.boldizsartompe.photofeed.domain.interactor.main.photos.common.GetPhotosInteractor;
-import hu.boldizsartompe.photofeed.domain.interactor.main.photos.common.PhotoInteractor;
-import hu.boldizsartompe.photofeed.domain.interactor.main.photos.common.PhotoInteractorImpl;
+import hu.boldizsartompe.photofeed.domain.interactor.main.photos.common.LikeInteractor;
+import hu.boldizsartompe.photofeed.domain.interactor.main.photos.common.LikeInteractorImpl;
 import hu.boldizsartompe.photofeed.domain.interactor.main.photos.myfeed.GetMyFeedPhotosInteractorImpl;
 import hu.boldizsartompe.photofeed.presenter.rx.JobExecutor;
 import hu.boldizsartompe.photofeed.presenter.view.presenter.BasePresenter;
@@ -17,13 +17,13 @@ import hu.boldizsartompe.photofeed.presenter.view.screens.main.photos.myfeed.MyF
 public class MyFeedPresenter extends BasePresenter<MyFeedView> {
 
     private GetPhotosInteractor getMyFeedPhotosInteractor;
-    private PhotoInteractor photoInteractor;
+    private LikeInteractor photoInteractor;
 
     private List<Photo> myFeedPhotos;
 
     public MyFeedPresenter() {
         getMyFeedPhotosInteractor = new GetMyFeedPhotosInteractorImpl();
-        photoInteractor = new PhotoInteractorImpl();
+        photoInteractor = new LikeInteractorImpl();
     }
 
     @Override

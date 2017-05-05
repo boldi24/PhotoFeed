@@ -38,6 +38,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
         if(comment.isMe()) {
             holder.linearLayout.setGravity(Gravity.END);
+        } else {
+            holder.linearLayout.setGravity(Gravity.LEFT);
         }
         holder.nameTV.setText(comment.getUsername());
         holder.dateTV.setText(comment.getDate());
@@ -47,6 +49,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
     @Override
     public int getItemCount() {
+        if(comments == null) return 0;
         return comments.size();
     }
 
