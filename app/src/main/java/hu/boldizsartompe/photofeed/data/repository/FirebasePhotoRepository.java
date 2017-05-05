@@ -77,14 +77,37 @@ public class FirebasePhotoRepository implements PhotoRepository {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                List<Photo> photos = new ArrayList<>();
+                final List<Photo> photos = new ArrayList<>();
 
                 for(DataSnapshot snap : dataSnapshot.getChildren()){
                     Photo photo = snap.getValue(Photo.class);
                     photos.add(photo);
                 }
 
-                EventBus.getDefault().post(new GetPhotosEvent(photos));
+                dbReferenceToLikes.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot photoLikeSnap : dataSnapshot.getChildren()){
+                            String photoId = photoLikeSnap.getKey();
+                            Photo photo = getPhotoWithId(photos, photoId);
+                            if(photo != null) {
+                                List<String> usersWhoLiked = new ArrayList<>();
+                                for (DataSnapshot likeSnap : photoLikeSnap.getChildren()) {
+                                    usersWhoLiked.add(likeSnap.getKey());
+                                }
+                                photo.setWhoLikedThPhoto(usersWhoLiked);
+                            }
+                        }
+
+                        EventBus.getDefault().post(new GetPhotosEvent(photos));
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        EventBus.getDefault().post(new GetPhotosEvent(databaseError.toException()));
+                    }
+                });
 
             }
 
@@ -93,12 +116,19 @@ public class FirebasePhotoRepository implements PhotoRepository {
                 EventBus.getDefault().post(new GetPhotosEvent(databaseError.toException()));
             }
         });
+    }
 
+    private Photo getPhotoWithId(List<Photo> photos, String id){
+        for (Photo photo : photos){
+            if(photo.getId().equals(id)) return photo;
+        }
+        return null;
     }
 
     @Override
     public void likePhoto(Photo photo, String username) {
-        dbReferenceToLikes.child(photo.getId()).child(username).setValue(photo.isDoILikeIt());
+        if(photo.isDoILikeIt()) dbReferenceToLikes.child(photo.getId()).child(username).setValue(photo.isDoILikeIt());
+        else dbReferenceToLikes.child(photo.getId()).child(username).setValue(null);
     }
 
     @Override

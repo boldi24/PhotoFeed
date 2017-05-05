@@ -63,13 +63,13 @@ public class MyFeedAdapter extends RecyclerView.Adapter<MyFeedAdapter.ViewHolder
 
         holder.nameTV.setText(currPhoto.getSenderUserName());
 
-//        holder.likeIV.setBackgroundResource(getLikeButtonId(currPhoto.isDoILikeIt()));
+        holder.likeIV.setBackgroundResource(getLikeButtonId(currPhoto.isDoILikeIt()));
         holder.likeIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 currPhoto.setDoILikeIt(!currPhoto.isDoILikeIt());
-                view.setActivated(currPhoto.isDoILikeIt());
                 callback.likePhoto(myPosition);
+                view.setActivated(currPhoto.isDoILikeIt());
             }
         });
         holder.commentIV.setOnClickListener(new View.OnClickListener() {

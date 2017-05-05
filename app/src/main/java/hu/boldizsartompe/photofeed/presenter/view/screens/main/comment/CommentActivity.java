@@ -43,6 +43,7 @@ public class CommentActivity extends BaseActivity implements CommentsView {
         Toolbar toolbar = (Toolbar) findViewById(R.id.tb_comments);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         commentPresenter = new CommentPresenter(getIntent().getStringExtra(EXTRA_PHOTOID));
 

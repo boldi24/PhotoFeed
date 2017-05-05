@@ -12,8 +12,8 @@ public class Photo {
     private String downloadRef;
     private String senderUserName;
     private String date;
-    @Exclude
     private boolean doILikeIt;
+    private List<String> whoLikedThPhoto;
 
     public Photo() {
     }
@@ -48,6 +48,7 @@ public class Photo {
         this.senderUserName = senderUserName;
     }
 
+    @Exclude
     public boolean isDoILikeIt() {
         return doILikeIt;
     }
@@ -62,5 +63,22 @@ public class Photo {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Exclude
+    public List<String> getWhoLikedThPhoto() {
+        return whoLikedThPhoto;
+    }
+
+    public void setWhoLikedThPhoto(List<String> whoLikedThPhoto) {
+        this.whoLikedThPhoto = whoLikedThPhoto;
+    }
+
+    public boolean doesUserLikePhoto(String uId){
+        if(whoLikedThPhoto == null) return false;
+        for(String whoLike : whoLikedThPhoto){
+            if(uId.equals(whoLike)) return true;
+        }
+        return false;
     }
 }

@@ -51,8 +51,8 @@ public class GetMyFeedPhotosInteractorImpl extends GetPhotosBaseInteractor {
         if(photos != null){
             for(Photo photo : photos){
                 if(isMyFriend(photo.getSenderUserName())) {
-                    //TODO nézzük meg h lájkoltam e
                     friendsPhotos.add(photo);
+                    photo.setDoILikeIt(photo.doesUserLikePhoto(myUsername));
                 }
             }
 
