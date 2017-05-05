@@ -19,6 +19,4 @@ public interface PhotoRepository {
 
     void getLikesOfPhoto(String id);
 
-    void downloadPhoto(String id);
-
 }

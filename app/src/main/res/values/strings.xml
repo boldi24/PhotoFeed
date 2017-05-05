@@ -42,4 +42,7 @@
     <string name="text_num_likes">%d likes</string>
     <string name="title_activity_likes">LikesActivity</string>
     <string name="text_downloading_likes">Like-ok letöltése...</string>
+    <string name="text_photo_saving_inprogress">Kép mentése folyamatban...</string>
+    <string name="error_while_saving_photo">Hiba a mentés közben!</string>
+    <string name="text_saving_photo_successful">Mentés sikeres a photo_feed mappába!</string>
 </resources>

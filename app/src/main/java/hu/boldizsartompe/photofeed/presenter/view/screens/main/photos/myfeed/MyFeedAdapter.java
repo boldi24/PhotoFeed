@@ -1,7 +1,12 @@
 package hu.boldizsartompe.photofeed.presenter.view.screens.main.photos.myfeed;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.media.Image;
+import android.net.Uri;
+import android.os.Environment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +16,18 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import hu.boldizsartompe.photofeed.R;
 import hu.boldizsartompe.photofeed.domain.entity.Photo;
+import hu.boldizsartompe.photofeed.domain.util.DateManager;
+import hu.boldizsartompe.photofeed.presenter.rx.JobExecutor;
+import hu.boldizsartompe.photofeed.presenter.utils.MessageShower;
 
 public class MyFeedAdapter extends RecyclerView.Adapter<MyFeedAdapter.ViewHolder> {
 
@@ -29,6 +40,8 @@ public class MyFeedAdapter extends RecyclerView.Adapter<MyFeedAdapter.ViewHolder
         void likePhoto(int position);
 
         void commentClicked(int position);
+
+        void savePhoto(ImageView iv, String title);
 
     }
 
@@ -59,6 +72,16 @@ public class MyFeedAdapter extends RecyclerView.Adapter<MyFeedAdapter.ViewHolder
         final int myPosition = photos.size() - 1 - position;
         final Photo currPhoto = photos.get(myPosition);
         Picasso.with(context).load(currPhoto.getDownloadRef()).resize(800,800).centerCrop().into(holder.photoIV);
+        holder.photoIV.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+//                showDoYouWantToSaveAlert((ImageView) view,
+//                        currPhoto.getSenderUserName() + currPhoto.getDate());
+                callback.savePhoto((ImageView) view,
+                        currPhoto.getSenderUserName() + currPhoto.getDate());
+                return true;
+            }
+        });
         holder.dateTV.setText(currPhoto.getDate());
 
         holder.nameTV.setText(currPhoto.getSenderUserName());

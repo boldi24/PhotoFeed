@@ -27,6 +27,7 @@ public class MainActivity extends BaseActivity implements MainView {
     private MainPresenter mainPresenter;
 
     private MyPhotosFragment myPhotosFragment;
+    private MyFeedFragment myFeedFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +93,10 @@ public class MainActivity extends BaseActivity implements MainView {
         @Override
         public Fragment getItem(int position) {
             switch (position){
-                case 0: return new MyFeedFragment();
+                case 0: {
+                    myFeedFragment = new MyFeedFragment();
+                    return myFeedFragment;
+                }
                 case 1: {
                     myPhotosFragment = new MyPhotosFragment();
                     return myPhotosFragment;
@@ -137,6 +141,16 @@ public class MainActivity extends BaseActivity implements MainView {
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
                     myPhotosFragment.takePhoto();
+                } else {
+                    // permission denied! Disable the
+                    // functionality that depends on this permission.
+                }
+            }
+            case MyFeedFragment.MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    myFeedFragment.saveImageView();
                 } else {
                     // permission denied! Disable the
                     // functionality that depends on this permission.
