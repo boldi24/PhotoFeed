@@ -168,7 +168,7 @@ public class FriendFragment extends Fragment implements FriendView, MyFriendsAda
 
     @Override
     public void deleteFriend(String username) {
-        //TODO delete friend
+        friendsPresenter.deleteFriend(username);
     }
 
     @Override

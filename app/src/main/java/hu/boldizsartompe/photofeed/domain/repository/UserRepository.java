@@ -7,9 +7,9 @@ public interface UserRepository {
 
     void registerUser(String username);
 
-    void requestAddFriend(String usernameMe, String usernameFriend);
+    void requestAddFriend(String usernameFriend);
 
-    void acceptFriend(String usernameMe, String usernameFriend);
+    void acceptFriend(String usernameFriend);
 
     void deleteFriend(String username);
 

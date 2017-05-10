@@ -10,6 +10,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.List;
 
+import hu.boldizsartompe.photofeed.data.manager.AuthManagerImpl;
 import hu.boldizsartompe.photofeed.domain.entity.Friend;
 import hu.boldizsartompe.photofeed.domain.events.main.friends.GetFriendsEvent;
 import hu.boldizsartompe.photofeed.domain.events.main.friends.UserExistsEvent;
@@ -54,7 +55,8 @@ public class FirebaseUserRepository implements UserRepository {
     }
 
     @Override
-    public void requestAddFriend(String usernameMe, String usernameFriend) {
+    public void requestAddFriend(String usernameFriend) {
+        String usernameMe = AuthManagerImpl.getInstance().getUsername();
         //My node
         dbRefToFriends.child(usernameMe).child(usernameFriend).setValue(Friend.FRIEND_REQUEST_FROM_ME);
 
@@ -63,7 +65,8 @@ public class FirebaseUserRepository implements UserRepository {
     }
 
     @Override
-    public void acceptFriend(String usernameMe, String usernameFriend) {
+    public void acceptFriend(String usernameFriend) {
+        String usernameMe = AuthManagerImpl.getInstance().getUsername();
         //My node
         dbRefToFriends.child(usernameMe).child(usernameFriend).setValue(Friend.VERIFIED_FRIEND);
 
@@ -74,6 +77,13 @@ public class FirebaseUserRepository implements UserRepository {
 
     @Override
     public void deleteFriend(String username) {
+        String usernameMe = AuthManagerImpl.getInstance().getUsername();
+
+        //My node
+        dbRefToFriends.child(usernameMe).child(username).setValue(null);
+
+        //Friend node
+        dbRefToFriends.child(username).child(usernameMe).setValue(null);
 
     }
 

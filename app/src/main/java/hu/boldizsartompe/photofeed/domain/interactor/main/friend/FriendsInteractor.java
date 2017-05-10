@@ -15,4 +15,6 @@ public interface FriendsInteractor {
 
     void getMyFriends();
 
+    void deleteFriend(String username);
+
 }

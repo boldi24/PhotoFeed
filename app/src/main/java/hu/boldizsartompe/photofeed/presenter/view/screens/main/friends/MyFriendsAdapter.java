@@ -73,6 +73,8 @@ public class MyFriendsAdapter extends RecyclerView.Adapter<MyFriendsAdapter.View
                     @Override
                     public void onClick(View view) {
                         callback.deleteFriend(friend.getUsername());
+                        friends.remove(friend);
+                        notifyDataSetChanged();
                     }
                 });
                 break;

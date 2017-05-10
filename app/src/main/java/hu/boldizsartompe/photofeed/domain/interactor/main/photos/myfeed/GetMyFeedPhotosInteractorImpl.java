@@ -64,7 +64,10 @@ public class GetMyFeedPhotosInteractorImpl extends GetPhotosBaseInteractor {
 
     private boolean isMyFriend(String username){
         for(Friend friend : myFriends){
-            if(friend.getUsername().equals(username)) return true;
+            if(friend.getUsername().equals(username)) {
+                if(friend.getState().equals(Friend.VERIFIED_FRIEND)) return true;
+                else return false;
+            }
         }
         return false;
     }

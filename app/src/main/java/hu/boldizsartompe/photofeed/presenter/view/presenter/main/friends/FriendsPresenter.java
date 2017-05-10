@@ -88,14 +88,6 @@ public class FriendsPresenter extends BasePresenter<FriendView> {
         }
     }
 
-//    @Override
-//    public void onLoggedInUsersName() {
-//        if(isViewNotNull()){
-//            mView.hideLoading();
-//
-//            mView.showCantAddYourself();
-//        }
-//    }
 
     public void addFriend(String username){
         friendsInteractor.addFriend(username);
@@ -133,5 +125,9 @@ public class FriendsPresenter extends BasePresenter<FriendView> {
 
     public void acceptFriend(String username) {
         friendsInteractor.acceptFriend(username);
+    }
+
+    public void deleteFriend(String username){
+        friendsInteractor.deleteFriend(username);
     }
 }

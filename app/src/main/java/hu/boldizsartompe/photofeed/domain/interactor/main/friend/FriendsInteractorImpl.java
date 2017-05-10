@@ -29,16 +29,21 @@ public class FriendsInteractorImpl implements FriendsInteractor {
     @Override
     public void addFriend(String friendUsername) {
 
-        userRepository.requestAddFriend(authManager.getUsername(), friendUsername);
+        userRepository.requestAddFriend(friendUsername);
     }
 
     @Override
     public void acceptFriend(String friendUsername) {
-        userRepository.acceptFriend(authManager.getUsername(), friendUsername);
+        userRepository.acceptFriend(friendUsername);
     }
 
     @Override
     public void getMyFriends() {
         userRepository.getMyFriends(authManager.getUsername());
+    }
+
+    @Override
+    public void deleteFriend(String username) {
+        userRepository.deleteFriend(username);
     }
 }
